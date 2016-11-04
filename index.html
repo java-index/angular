@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='voteApp'>
+<head>
+	<meta charset="UTF-8">
+	<script src="js/angular.min.js"></script>
+	<script type="text/javascript">
+		angular.module('voteApp', [])
+		.controller('voteCtrl', ['$scope', function($scope){
+
+			$scope.question = {
+				title : "Which framework is better",
+				author : "Bill Gates" ,
+				date : new Date(),
+				answer : [
+					{
+						title : "AngularJS",
+						vote : 2
+					},{
+						title : "Nockout",
+						vote : 0
+					},{
+						title : "Native",
+					  vote : 5
+					}]
+			};
+
+			$scope.voteUp = function(question){
+				question.vote++;
+			}
+
+			$scope.voteDown = function(question){
+				question.vote--;
+			}
+
+		}]) // ctrl
+	</script>
+	<title>Vote System</title>
+</head>
+<body ng-controller='voteCtrl'>
+	<div>
+		<p>Question: {{ question.title }}</p>
+		<p>Author: {{ question.author}} </p>
+		<p>Date: {{ question.date | date:"dd-MMM-yyyy hh:mm"}} </p>
+		<ul>
+			<li ng-repeat="item in question.answer | orderBy:'vote' | limitTo:2">
+				{{item.title + " votes: " + item.vote}}
+				<div>
+				<button ng-click="voteUp(item)">UP</button>
+				<button ng-click="voteDown(item)">DOWN</button>
+				</div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
